@@ -12,3 +12,7 @@ AS sub WHERE Employee_salary > manager_salary
 -182. Duplicate Emails
 SELECT Email FROM(SELECT email, COUNT(*) AS COUNTING FROM Person GROUP BY email) AS sub WHERE COUNTING > 1 #my answer
 SELECT Email FROM Person GROUP BY Email Having COUNT(*) > 1 #Other one
+
+-183. Customers Who Never Order
+SELECT name AS Customers FROM (SELECT a.id, a.name, b.customerId FROM Customers as a LEFT JOIN Orders AS b ON a.id = b.customerId WHERE b.customerId IS NULL) AS sub #my answer
+select Name as Customers from Customers where Id not in (select CustomerId from Orders) #Other one. USING not in
