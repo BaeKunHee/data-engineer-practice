@@ -1,0 +1,10 @@
+#175. Combining two tables
+SELECT a.firstName, a.lastName, b.city, b.state 
+FROM Person AS a LEFT JOIN Address AS b ON a.personId = b.personId
+
+181. Employees Earning More Than Their Managers
+SELECT Employee
+FROM (SELECT a.name AS Employee, a.salary AS Employee_salary, b.salary AS manager_salary FROM Employee AS a JOIN Employee as b ON a.managerId = b.id)
+AS sub WHERE Employee_salary > manager_salary
+#USING SELF JOIN AND SUBQUERY. 
+#CAUTION: Have to have alias in SELF JOIN, SUBQUERY
