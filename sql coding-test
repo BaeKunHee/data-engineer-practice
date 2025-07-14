@@ -16,3 +16,7 @@ SELECT Email FROM Person GROUP BY Email Having COUNT(*) > 1 #Other one
 -183. Customers Who Never Order
 SELECT name AS Customers FROM (SELECT a.id, a.name, b.customerId FROM Customers as a LEFT JOIN Orders AS b ON a.id = b.customerId WHERE b.customerId IS NULL) AS sub #my answer
 select Name as Customers from Customers where Id not in (select CustomerId from Orders) #Other one. USING not in
+
+-196. Delete Duplicate Emails(USING DELETE statement)
+DELETE FROM PERSON WHERE ID NOT IN (SELECT MIN(ID) FROM PERSON GROUP BY EMAIL) #SQL Ver.
+Person.drop(Person[Person.duplicated('email', keep='first')].index, inplace=True) #Pandas Ver.
