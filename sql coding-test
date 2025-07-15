@@ -20,3 +20,11 @@ select Name as Customers from Customers where Id not in (select CustomerId from 
 -196. Delete Duplicate Emails(USING DELETE statement)
 DELETE FROM PERSON WHERE ID NOT IN (SELECT MIN(ID) FROM PERSON GROUP BY EMAIL) #SQL Ver.
 Person.drop(Person[Person.duplicated('email', keep='first')].index, inplace=True) #Pandas Ver.
+
+197. Rising Temperature
+def rising_temperature(weather: pd.DataFrame) -> pd.DataFrame: #Pandas Ver.
+    copy_shift = weather.shift()
+    weather['match'] = weather.temperature > copy_shift.temperature
+    return weather.loc[weather['match'] == True, ['id']] # without [ ] at ['id'], return class series.
+SELECT ID FROM (SELECT ID, TEMPERATURE, LAG(TEMPERATURE)  OVER (ORDER BY ID) AS PREV_TEMPERATURE FROM WEATHER) AS SUB #SQL Ver.
+WHERE TEMPERATURE > PREV_TEMPERATURE #If there is not alias, will be error
