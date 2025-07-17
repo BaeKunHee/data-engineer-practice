@@ -36,7 +36,7 @@ def rising_temperature(weather: pd.DataFrame) -> pd.DataFrame: #Pandas Ver.
 
 
 -511. Game Play Analysis I
-SELECT DISTINCT PLAYER_ID, MIN(EVENT_DATE) AS FIRST_LOGIN FROM ACTIVITY GROUP BY PLAYER_ID #SQL Ver.
+SELECT PLAYER_ID, MIN(EVENT_DATE) AS FIRST_LOGIN FROM ACTIVITY GROUP BY PLAYER_ID #SQL Ver.
 
 a = activity.groupby('player_id', as_index=False)['event_date'].min() #Pandas Ver. / Using 'groupby' function is point. parameter 'as_index' makes return type to DataFrame 
      a.rename(columns = {'event_date': 'first_login'}, inplace = True)
