@@ -54,3 +54,11 @@ m = pd.merge(left = employee, right = bonus, how= 'left', on = 'empId') #Pandas 
 SELECT name FROM CUSTOMER WHERE REFEREE_ID != 2 OR REFEREE_ID IS NULL #SQL Ver.
 
 return customer[(customer['referee_id']!= 2)|(customer['referee_id'].isna())][['name']] #Pandas Ver.
+
+-586. Customer Placing the Largest Number of Orders
+SELECT CUSTOMER_NUMBER FROM ORDERS GROUP BY CUSTOMER_NUMBER #SQL Ver.
+HAVING COUNT(*) = (SELECT MAX(SUB) 
+FROM (SELECT COUNT(*) AS SUB FROM ORDERS GROUP BY CUSTOMER_NUMBER) AS A) # Can't use alias in Having sentence. so use COUNT(*) again.
+
+a=orders.groupby('customer_number', as_index=False).count()
+     return  a.loc[a['order_number']==a['order_number'].max(), ['customer_number']] #Pandas Ver.
