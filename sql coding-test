@@ -42,10 +42,15 @@ a = activity.groupby('player_id', as_index=False)['event_date'].min() #Pandas Ve
      a.rename(columns = {'event_date': 'first_login'}, inplace = True)
      return a 
 
-577. Employee Bonus
+-577. Employee Bonus
 SELECT E.NAME, B.BONUS FROM EMPLOYEE AS E  #SQL Ver.
 LEFT JOIN BONUS AS B ON E.EMPID = B.EMPID
 WHERE B.BONUS < 1000 OR B.BONUS IS NULL 
 
 m = pd.merge(left = employee, right = bonus, how= 'left', on = 'empId') #Pandas Ver.
     return m[(m['bonus']<2000)|(m['bonus'].isna())][['name','bonus']]
+
+-584. Find Customer Referee
+SELECT name FROM CUSTOMER WHERE REFEREE_ID != 2 OR REFEREE_ID IS NULL #SQL Ver.
+
+return customer[(customer['referee_id']!= 2)|(customer['referee_id'].isna())][['name']] #Pandas Ver.
