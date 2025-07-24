@@ -62,3 +62,16 @@ FROM (SELECT COUNT(*) AS SUB FROM ORDERS GROUP BY CUSTOMER_NUMBER) AS A) # Can't
 
 a=orders.groupby('customer_number', as_index=False).count()
      return  a.loc[a['order_number']==a['order_number'].max(), ['customer_number']] #Pandas Ver.
+
+-595. Big Countries
+SELECT name, population, area FROM WORLD WHERE AREA >= 3000000 OR POPULATION >= 25000000 #SQL Ver.
+
+return world.loc[(world['area']>=3000000)|(world['population']>25000000), ['name', 'population', 'area']] #Pandas Ver.
+                                                                                                          #Include parentheses
+
+-596. Classes With at Least 5 Students
+SELECT CLASS FROM COURSES GROUP BY CLASS HAVING COUNT(*)>=5 #SQL Ver.
+
+grouped = courses.groupby(['class'], as_index=False).count() #Pandas Ver.
+                                                             #Using count()
+    return grouped.loc[grouped['student']>=5, ['class']]
