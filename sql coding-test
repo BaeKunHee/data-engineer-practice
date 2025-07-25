@@ -75,3 +75,17 @@ SELECT CLASS FROM COURSES GROUP BY CLASS HAVING COUNT(*)>=5 #SQL Ver.
 grouped = courses.groupby(['class'], as_index=False).count() #Pandas Ver.
                                                              #Using count()
     return grouped.loc[grouped['student']>=5, ['class']]
+
+-607. Sales Person
+WITH CTE(COM_ID, SALES_ID, COM_NAME) AS            #SQL Ver.
+(
+    SELECT O.COM_ID, O.SALES_ID, C.NAME FROM COMPANY AS C 
+    INNER JOIN ORDERS AS O ON C.COM_ID = O.COM_ID WHERE O.COM_ID = 1
+)
+
+SELECT NAME FROM SALESPERSON WHERE SALES_ID NOT IN (SELECT SALES_ID FROM CTE)
+
+ j=pd.merge(company, orders, "inner", 'com_id')    #Pandas Ver.
+     j=j.loc[j['com_id']==1, ['com_id', 'sales_id']]
+     J=pd.merge(sales_person, j, "left", 'sales_id')
+     return J.loc[J['com_id'].isna(), ['name']]
