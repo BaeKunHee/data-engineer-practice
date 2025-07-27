@@ -89,3 +89,29 @@ SELECT NAME FROM SALESPERSON WHERE SALES_ID NOT IN (SELECT SALES_ID FROM CTE)
      j=j.loc[j['com_id']==1, ['com_id', 'sales_id']]
      J=pd.merge(sales_person, j, "left", 'sales_id')
      return J.loc[J['com_id'].isna(), ['name']]
+
+
+-610. Triangle Judgement (7/27)
+SELECT  *,     #SQL Ver.
+CASE WHEN X+Y > Z AND X+Z > Y AND Y+Z > X THEN 'Yes'
+		ELSE 'No'
+	END AS 'TRIANGLE'
+FROM TRIANGLE    #Using Case method
+
+a=triangle    #Pandas Ver.
+    cond = (a['x']+a['y']>a['z'])&(a['x']+a['z']>a['y'])&(a['y']+a['z']>a['x'])
+    for i in range(0,2):
+        if cond[i]:
+            a.loc[i, 'triangle']='Yes'  
+        else:
+            a.loc[i, 'triangle']='No'
+    return a
+
+-619. Biggest Single Number (7/27)
+CASE 1) # SQL Ver.
+    SELECT TOP 1 NUM FROM(
+SELECT NUM FROM MYNUMBERS GROUP BY NUM HAVING COUNT(*)=1) AS SINGLE 
+ORDER BY NUM DESC
+
+CASE 2) #SQL Ver.
+    SELECT NUM FROM MYNUMBERS GROUP BY NUM HAVING COUNT(*)=1
