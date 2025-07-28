@@ -107,11 +107,22 @@ a=triangle    #Pandas Ver.
             a.loc[i, 'triangle']='No'
     return a
 
--619. Biggest Single Number (7/27)
-CASE 1) # SQL Ver.
-    SELECT TOP 1 NUM FROM(
-SELECT NUM FROM MYNUMBERS GROUP BY NUM HAVING COUNT(*)=1) AS SINGLE 
+-619. Biggest Single Number (7/28)
+SELECT TOP 1 NUM FROM(		#SQL Ver.
+SELECT NUM FROM MYNUMBERS GROUP BY NUM HAVING COUNT(*)=1) AS SINGLE  
 ORDER BY NUM DESC
 
-CASE 2) #SQL Ver.
-    SELECT NUM FROM MYNUMBERS GROUP BY NUM HAVING COUNT(*)=1
+max_unique = my_numbers.drop_duplicates(keep=False)['num'].max()	#Pandas Ver.
+    if pd.isna(max_unique):
+        result=pd.DataFrame({'num':[np.nan]})
+    else:
+        result=my_numbers.loc[my_numbers['num']==max_unique, ['num']]
+        if result.empty:
+            result = pd.DataFrame({'num':[np.nan]})
+    return result
+
+-620. Not Boring Movies (7/28)
+SELECT * FROM CINEMA WHERE ID IN (1, 3, 5) AND DESCRIPTION != 'BORING' ORDER BY RATING DESC	#SQL Ver.
+
+a=cinema.loc[(((cinema['id'] == 1)| (cinema['id'] == 3) | (cinema['id'] == 5)) & (cinema['description'] != 'boring')), ['id', 'movie', 'description', 'rating']]
+    return a.sort_values(by = 'rating', ascending=False, inplace = False)	#Pandas Ver.
