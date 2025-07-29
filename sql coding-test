@@ -126,3 +126,13 @@ SELECT * FROM CINEMA WHERE ID IN (1, 3, 5) AND DESCRIPTION != 'BORING' ORDER BY 
 
 a=cinema.loc[(((cinema['id'] == 1)| (cinema['id'] == 3) | (cinema['id'] == 5)) & (cinema['description'] != 'boring')), ['id', 'movie', 'description', 'rating']]
     return a.sort_values(by = 'rating', ascending=False, inplace = False)	#Pandas Ver.
+
+-627. Swap Salary (7/29)
+UPDATE SALARY #SQL Ver.
+SET sex = CASE
+WHEN sex = 'f' THEN 'm'
+WHEN sex = 'm' THEN 'f'
+ELSE sex END 
+
+salary['sex']=salary['sex'].apply(lambda x:'f' if x=='m' else 'm')	#Pandas Ver. 
+    return salary
