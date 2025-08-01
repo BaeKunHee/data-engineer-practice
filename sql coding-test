@@ -108,9 +108,7 @@ a=triangle    #Pandas Ver.
     return a
 
 -619. Biggest Single Number (7/28)
-SELECT TOP 1 NUM FROM(		#SQL Ver.
-SELECT NUM FROM MYNUMBERS GROUP BY NUM HAVING COUNT(*)=1) AS SINGLE  
-ORDER BY NUM DESC
+SELECT MAX(NUM) FROM (SELECT NUM FROM MYNUMBERS GROUP BY NUM HAVING COUNT(*)=1) AS SUB #SQL Ver.
 
 max_unique = my_numbers.drop_duplicates(keep=False)['num'].max()	#Pandas Ver.
     if pd.isna(max_unique):
@@ -122,9 +120,9 @@ max_unique = my_numbers.drop_duplicates(keep=False)['num'].max()	#Pandas Ver.
     return result
 
 -620. Not Boring Movies (7/28)
-SELECT * FROM CINEMA WHERE ID IN (1, 3, 5) AND DESCRIPTION != 'BORING' ORDER BY RATING DESC	#SQL Ver.
+SELECT * FROM CINEMA WHERE ID%2 != 0 AND DESCRIPTION != 'BORING' ORDER BY RATING DESC	#SQL Ver.
 
-a=cinema.loc[(((cinema['id'] == 1)| (cinema['id'] == 3) | (cinema['id'] == 5)) & (cinema['description'] != 'boring')), ['id', 'movie', 'description', 'rating']]
+a=cinema.loc[(cinema['id']%2 == 1) & (cinema['description'] != 'boring'), ['id', 'movie', 'description', 'rating']]
     return a.sort_values(by = 'rating', ascending=False, inplace = False)	#Pandas Ver.
 
 -627. Swap Salary (7/29)
@@ -136,3 +134,9 @@ ELSE sex END
 
 salary['sex']=salary['sex'].apply(lambda x:'f' if x=='m' else 'm')	#Pandas Ver. 
     return salary
+
+-1050. Actors and Directors Who Cooperated At Least Three Times(8/1)
+SELECT ACTOR_ID, DIRECTOR_ID FROM ACTORDIRECTOR GROUP BY ACTOR_ID, DIRECTOR_ID HAVING COUNT(*) >=3 #SQL Ver.
+
+a=actor_director.groupby(['actor_id', 'director_id']).size()	#Pandas Ver.
+    return a[a>=3].reset_index()[['actor_id', 'director_id']]
