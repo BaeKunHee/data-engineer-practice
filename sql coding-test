@@ -140,3 +140,21 @@ SELECT ACTOR_ID, DIRECTOR_ID FROM ACTORDIRECTOR GROUP BY ACTOR_ID, DIRECTOR_ID H
 
 a=actor_director.groupby(['actor_id', 'director_id']).size()	#Pandas Ver.
     return a[a>=3].reset_index()[['actor_id', 'director_id']]
+
+-1068. Product Sales Analysis I(8/2)
+SELECT B.PRODUCT_NAME, A.YEAR, A.PRICE FROM SALES AS A  #SQL Ver.
+INNER JOIN PRODUCT AS B ON A.PRODUCT_ID = B.PRODUCT_ID
+
+a=sales.merge(product, "inner", 'product_id')	#Pandas Ver
+    return a[['product_name', 'year', 'price']] 
+
+-1075. Project Employees I (8/2)
+SELECT A.PROJECT_ID, CAST(AVG(CAST(B.EXPERIENCE_YEARS AS FLOAT)) AS DECIMAL(10, 2)) AS AVERAGE_YEARS FROM PROJECT AS A 
+INNER JOIN EMPLOYEE AS B ON A.EMPLOYEE_ID = B.EMPLOYEE_ID
+GROUP BY A.PROJECT_ID	#SQL Ver.
+
+a=project.merge(employee, "inner", 'employee_id')	#Pandas Ver.
+     a[['project_id', 'experience_years']]
+     grouped = a.groupby('project_id', as_index=False)['experience_years'].mean()
+     grouped = grouped.rename(columns={'experience_years': 'average_years'})
+     return grouped
