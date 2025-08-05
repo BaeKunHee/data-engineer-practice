@@ -158,3 +158,27 @@ a=project.merge(employee, "inner", 'employee_id')	#Pandas Ver.
      grouped = a.groupby('project_id', as_index=False)['experience_years'].mean()
      grouped = grouped.rename(columns={'experience_years': 'average_years'})
      return grouped
+
+-1084. Sales Analysis III (8/5)
+SELECT A.PRODUCT_ID, A.PRODUCT_NAME FROM PRODUCT AS A	#SQL Ver.
+INNER JOIN SALES AS B ON A.PRODUCT_ID = B.PRODUCT_ID
+WHERE A.PRODUCT_ID IN (SELECT PRODUCT_ID FROM SALES
+GROUP BY PRODUCT_ID HAVING COUNT(*)=1)
+AND (B.SALE_DATE >= '2019-01-01' AND B.SALE_DATE <= '2019-03-01')
+
+m = product.merge(sales, "inner", 'product_id')	#Pandas Ver.
+g = m.drop_duplicates(['product_id'], keep = False, inplace = True)
+return m.loc[(m['sale_date']>= '2019-01-01')&(m['sale_date']<='2019-03-01'), ['product_id', 'product_name']] 
+
+-1141. User Activity for the Past 30 Days I (8/5)
+SELECT SUB.ACTIVITY_DATE AS DAY, COUNT(*) AS ACTIVE_USERS	#SQL Ver.
+FROM(
+SELECT USER_ID, ACTIVITY_DATE FROM ACTIVITY
+GROUP BY USER_ID, ACTIVITY_DATE HAVING ACTIVITY_DATE >= '2019-06-27') AS SUB
+GROUP BY SUB.ACTIVITY_DATE
+
+g = activity.groupby(['user_id','activity_date']).size()	#Pandas Ver.
+    g.reset_index()[['user_id', 'activity_date']]
+    g1 = g.groupby('activity_date').size()
+    a=pd.DataFrame({'day':g1.index, 'active_users':g1.values})
+    return a.loc[a['day']>='2019-06-27', ['day', 'active_users']]
