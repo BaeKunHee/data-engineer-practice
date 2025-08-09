@@ -1,0 +1,9 @@
+-176. Second Highest Salary (8/9)
+SELECT  #SQL Ver.
+    (
+        SELECT DISTINCT salary
+        FROM Employee
+        ORDER BY salary DESC
+        OFFSET 1 ROW FETCH NEXT 1 ROWS ONLY
+    ) AS SecondHighestSalary
+
