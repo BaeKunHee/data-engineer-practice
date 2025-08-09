@@ -182,3 +182,12 @@ g = activity.groupby(['user_id','activity_date']).size()	#Pandas Ver.
     g1 = g.groupby('activity_date').size()
     a=pd.DataFrame({'day':g1.index, 'active_users':g1.values})
     return a.loc[a['day']>='2019-06-27', ['day', 'active_users']]
+
+-1148. Article Views I (8/9)
+SELECT DISTINCT AUTHOR_ID AS ID FROM VIEWS 	#SQL Ver.
+WHERE AUTHOR_ID = VIEWER_ID
+
+a=views.drop_duplicates(['author_id', 'viewer_id'])	#Pandas Ver.
+    a1=a.loc[a['author_id']==a['viewer_id'], ['author_id']]
+    a2=a1.sort_values(by='author_id')
+    return a2.rename(columns={"author_id":"id"})
