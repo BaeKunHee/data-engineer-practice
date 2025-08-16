@@ -1,9 +1,27 @@
 -176. Second Highest Salary (8/9)
-SELECT  #SQL Ver.
-    (
-        SELECT DISTINCT salary
-        FROM Employee
-        ORDER BY salary DESC
+#SQL Ver.
+SELECT SALARY AS SecondHighestSalary FROM (
+        SELECT DISTINCT SALARY
+        FROM EMPLOYEE
+        ORDER BY SALARY DESC
         OFFSET 1 ROW FETCH NEXT 1 ROWS ONLY
-    ) AS SecondHighestSalary
+    ) AS SUB
 
+#Other SQL Ver. (better)
+WITH CTE(salary, id, _rank) AS
+(SELECT salary, id, RANK() OVER (ORDER BY salary DESC) as _rank FROM employee)
+
+SELECT CASE
+WHEN (SELECT DISTINCT salary FROM CTE WHERE _rank = 2) IS NULL THEN NULL
+ELSE (SELECT DISTINCT salary FROM CTE WHERE _rank = 2) 
+END AS SecondHighestSalary
+
+#Pandas Ver.
+duplicated_salary = employee.drop_duplicates('salary')
+sort_salary = duplicated_salary.sort_values('salary', ascending = False).rename(columns={'salary':'SecondHighestSalary'})
+if len(sort_salary)>=2:
+    sort_salary['rank']=sort_salary['SecondHighestSalary'].rank()
+    result = sort_salary.loc[sort_salary['rank']==2, ['SecondHighestSalary']]
+else:
+     result = pd.DataFrame({'SecondHighestSalary':[np.nan]})
+return result
